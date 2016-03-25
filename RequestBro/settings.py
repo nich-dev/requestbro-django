@@ -17,7 +17,6 @@ import dev_settings as actual_settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ SECRET_KEY = secret.SECRET_KEY
 DEBUG = actual_settings.DEBUG
 
 ALLOWED_HOSTS = actual_settings.ALLOWED_HOSTS
-
 
 # Application definition
 
@@ -81,8 +79,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'RequestBro.wsgi.application'
 
-
-#REST FRAMEWORK
+# REST FRAMEWORK
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -90,10 +87,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',     
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-        'rest_framework_social_oauth2.authentication.SocialAuthentication'          
+        'rest_framework_social_oauth2.authentication.SocialAuthentication'
     )
 }
 # Database
@@ -105,7 +102,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -133,12 +129,12 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-#social id/keys
+# social id/keys
 SOCIAL_AUTH_TWITCH_KEY = secret.SOCIAL_AUTH_TWITCH_KEY
 SOCIAL_AUTH_TWITCH_SECRET = secret.SOCIAL_AUTH_TWITCH_SECRET
-SOCIAL_AUTH_TWITCH_SCOPE  = [
-                             'user_read',
-                             'channel_subscriptions',
+SOCIAL_AUTH_TWITCH_SCOPE = [
+    'user_read',
+    'channel_subscriptions',
 ]
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/accounts/login/'
@@ -157,11 +153,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 STATIC_URL = '/static/'
 # STATIC_ROOT = BASE_DIR + '/static/'
 STATICFILES_DIRS = (
-                ('assets', os.path.join(BASE_DIR, 'static'))
+    ('assets', os.path.join(BASE_DIR, 'static'))
 )
