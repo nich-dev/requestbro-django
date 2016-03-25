@@ -1,0 +1,37 @@
+<div class="navbar-fixed">
+	<nav class="{{ theme }} theme" role="navigation">
+	  <div class="nav-wrapper container">
+	    <a id="logo-container" href={% if user.is_authenticated %}"/home/"{% else %}"/"{% endif %} class="brand-logo">Request Bro</a>
+	    <ul class="right hide-on-med-and-down">
+	      {% if user.is_authenticated %}
+	      <li><a class="dropdown-button" href="#">Rooms</a></li>
+	      <li><a class="dropdown-button no-ajaxy" href="#">Create</a></li>
+	      <li><a class="dropdown-button no-ajaxy" href="#!" data-activates="dropdownpb">Profile</a></li>
+	      {% else %}
+	      <li><a class="dropdown-button" href="/auth/login/twitch/">Login</a></li>
+		  {% endif %}
+	    </ul>
+	
+	    <ul id="nav-mobile" class="side-nav">
+	     {% if user.is_authenticated %}
+	     <li><a class="dropdown-button" href="#">Rooms</a></li>
+	     <li><a class="dropdown-button no-ajaxy" href="#">Create</a></li>
+	      <li><a class="dropdown-button no-ajaxy" href="#!" data-activates="dropdownp">Profile</a></li>
+	      {% else %}
+	      <li><a class="dropdown-button" href="/auth/login/twitch/">Login</a></li>
+		  {% endif %}
+	    </ul>
+	    {% if user.is_authenticated %}
+		    <!-- Dropdown Structure Profile nav -->
+			<ul id="dropdownp" class="dropdown-content">
+			  {% include 'container/nav.profile.drop.html' %}
+			</ul>
+			<!-- Dropdown Structure Profile Big -->
+			<ul id="dropdownpb" class="dropdown-content">
+			  {% include 'container/nav.profile.drop.html' %}
+			</ul>
+		{% endif %}
+	    <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+	  </div>
+	</nav>
+</div>

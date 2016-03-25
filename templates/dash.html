@@ -1,0 +1,100 @@
+{% load staticfiles %}
+<div id="content">
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <br><br>
+      {% if failed %}
+      	<h1 class="header center white-text text-lighten-2 text-drop-shadow">Login Failed</h1>
+      {% else %}
+      	<h1 class="header center white-text text-lighten-2 text-drop-shadow">Request Bro - Song Requesterer</h1>
+      {% endif %}
+      <div class="row center">
+      {% if user.is_authenticated %}
+        <h5 class="header col s12 white-text light text-drop-shadow">Hi again {{ user.username }}</h5>
+      {% elif failed %}
+        <h5 class="header col s12 white-text light text-drop-shadow">You are either banned or there was a server error. Check back later.</h5>
+      {% else %}
+        <h5 class="header col s12 white-text light text-drop-shadow">A twitch integrated solution to organize your song requests</h5>
+      {% endif %}
+      </div>
+      <div class="row center">
+      {% if user.is_authenticated %}
+        <a href="/home/" id="register-button" class="btn-large waves-effect waves-light {{ theme }} lighten-1 theme">Go to My Dashboard</a>
+      {% else %}
+        <a href="/auth/login/twitch/" id="register-button" class="btn-large waves-effect waves-light {{ theme }} lighten-1 theme">Get Started</a>
+      {% endif %}
+      </div>
+      <br><br>
+
+    </div>
+  </div>
+  <div class="parallax"><img src="{% static "img/tables.jpg" %}" alt="Unsplashed background img 1"></div>
+</div>
+
+
+<div class="container">
+  <div class="section">
+
+    <!--   Icon Section   -->
+    <div class="row">
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center {{ theme }}-text theme"><i class="material-icons">trending_up</i></h2>
+          <h5 class="center">Create</h5>
+
+          <p class="light">Quickly and easily create your own room to let your followers request songs.</p>
+        </div>
+      </div>
+
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center {{ theme }}-text theme"><i class="material-icons">group</i></h2>
+          <h5 class="center">Request</h5>
+
+          <p class="light">Let the host know what YOU want to hear. Vote on songs you agree with that are already in the queue.</p>
+        </div>
+      </div>
+
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center {{ theme }}-text theme"><i class="material-icons">dashboard</i></h2>
+          <h5 class="center">Manage</h5>
+
+          <p class="light">Maintain a blocked users list and a blocked song list. Choose your room color. Define your genre.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="parallax-container valign-wrapper" style="height:250px">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <div class="row center">
+        <h5 class="header col s12 light grey-text lighten-1">Android App !whenready</h5>
+      </div>
+    </div>
+  </div>
+  <div class="parallax"><img src="{% static "img/tables2.jpg" %}" alt="Unsplashed background img 2"></div>
+</div>
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12 center">
+        <h3><i class="material-icons {{ theme }}-text theme">settings_remote</i></h3>
+        <h4>f</h4>
+        <p class="left-align light">f</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modals -->
+<div id="render" data-theme="{{ theme }}"></div>
+</div>

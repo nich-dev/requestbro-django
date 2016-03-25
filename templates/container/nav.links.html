@@ -1,0 +1,6 @@
+{% if user.is_authenticated %}
+<li><a class="waves-effect waves-light" href="#">Teams</a></li>
+{% else %}
+<li><a class="waves-effect waves-light modal-trigger no-ajaxy" href="#modal-login">Login</a></li>
+<li><a class="waves-effect waves-light" href="/accounts/register/">Register</a></li>
+{% endif %}
