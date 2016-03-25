@@ -81,13 +81,14 @@ class SongRequest(models.Model):
     session = models.ForeignKey(Session)
     song = models.ForeignKey(Song)
     complete = models.BooleanField(default=False)
+    hidden = models.BooleanField(default=False)
     note = models.CharField(max_length=100, blank=True, null=True)
     points = models.IntegerField(default=0)
     date_edited = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return '%s requests %s' % (self.title, self.song)
+        return '%s requests %s' % (self.user, self.song)
 
     class Meta:
         ordering = ['user']

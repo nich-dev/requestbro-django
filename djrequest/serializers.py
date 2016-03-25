@@ -25,15 +25,16 @@ class SongSerializer(serializers.HyperlinkedModelSerializer):
 class SongRequestSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.SongRequest
-        fields = ('url', 'user', 'song', 'complete', 'note', 'points')
+        fields = ('url', 'user', 'song', 'complete', 'note', 'points', 'hidden')
 
 
 class SongRequestDetailedSerializer(serializers.HyperlinkedModelSerializer):
-    song = SongSerializer(many=True, read_only=True)
+    song = SongSerializer(many=False, read_only=True)
+    user = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = models.SongRequest
-        fields = ('url', 'user', 'song', 'complete', 'note', 'points')
+        fields = ('url', 'user', 'song', 'complete', 'note', 'points', 'hidden')
 
 
 class UserPrefsSerializer(serializers.HyperlinkedModelSerializer):
@@ -41,7 +42,7 @@ class UserPrefsSerializer(serializers.HyperlinkedModelSerializer):
     banned_users = serializers.StringRelatedField(many=True)
     following_users = serializers.StringRelatedField(many=True)
     mod_users = serializers.StringRelatedField(many=True)
-    banned_songs_by_word = serializers.StringRelatedField(many=True)
+    banned_songs_by_word = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = models.UserPrefs
@@ -80,4 +81,4 @@ class SessionSerializer(serializers.HyperlinkedModelSerializer):
         model = models.Session
         fields = ('url', 'user', 'title', 'genre', 'link', 'suspend', 'sub_only',
                   'verified_only', 'ended', 'allow_soundcloud', 'allow_youtube',
-                  'allow_spotify', 'allow_playmusic')
+                  'allow_spotify', 'allow_playmusic', 'requests')

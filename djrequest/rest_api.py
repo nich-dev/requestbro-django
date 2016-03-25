@@ -39,3 +39,13 @@ class SongRequestDetailedViewSet (viewsets.ModelViewSet):
     permission_classes = (mypermissions.IsOwnerOrReadOnly,)
 
 
+class SessionDetailedViewSet (viewsets.ModelViewSet):
+    serializer_class = serializers.SessionSerializer
+    queryset = models.Session.objects.all()
+    permission_classes = (mypermissions.IsOwnerOrReadOnly,)
+
+
+class SessionSimpleViewSet (viewsets.ModelViewSet):
+    serializer_class = serializers.SessionSimpleSerializer
+    queryset = models.Session.objects.all()
+    permission_classes = (mypermissions.IsOwnerOrReadOnly,)
