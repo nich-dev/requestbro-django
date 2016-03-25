@@ -14,17 +14,23 @@ colors = (
     ('brown', 'Brown'), ('grey', 'Greyscale'), ('blue-grey', 'Blue-Grey'),
 )
 
+genres = (
+    ('Alternative/Indie', 'Alternative/Indie'),
+    ('Classical', 'Classical'),
+    ('Country', 'Country'),
+    ('Dance/Electronic', 'Dance/Electronic'),
+    ('Hip-Hop/Rap', 'Hip-Hop/Rap'),
+    ('Jazz', 'Jazz'),
+    ('Latin', 'Latin'),
+    ('Metal', 'Metal'),
+    ('Pop', 'Pop'),
+    ('R&B/Soul', 'R&B/Soul'),
+    ('Rock', 'Rock'),
+    ('World', 'World'),
+)
 
-class Genre(models.Model):
-    title = models.CharField(max_length=20)
-    date_edited = models.DateTimeField(auto_now=True)
-    date_created = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
-        return '%s' % (self.title)
-
-    class Meta:
-        ordering = ['title']
+session_genres = (('Open Format', 'Open Format'),) + genres
 
 
 class Song(models.Model):
@@ -36,7 +42,7 @@ class Song(models.Model):
     playmusic_link = models.CharField(max_length=150, blank=True, null=True)
     verified = models.BooleanField(default=False)
     requests = models.IntegerField(default=0)
-    genre = models.ForeignKey(Genre)
+    genre = models.CharField(max_length=50, choices=genres, default="Pop")
     date_edited = models.DateTimeField(auto_now=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -50,7 +56,7 @@ class Song(models.Model):
 class Session(models.Model):
     user = models.ForeignKey(User)
     title = models.CharField(max_length=40)
-    genre = models.ForeignKey(Genre)
+    genre = models.CharField(max_length=50, choices=session_genres, default="Open Format")
     link = models.CharField(max_length=255)
     suspend = models.BooleanField(default=False)
     sub_only = models.BooleanField(default=False)
@@ -72,6 +78,7 @@ class Session(models.Model):
 
 class SongRequest(models.Model):
     user = models.ForeignKey(User)
+    session = models.ForeignKey(Session)
     song = models.ForeignKey(Song)
     complete = models.BooleanField(default=False)
     note = models.CharField(max_length=100, blank=True, null=True)
@@ -84,6 +91,7 @@ class SongRequest(models.Model):
 
     class Meta:
         ordering = ['user']
+
 
 class UserPrefs(models.Model):
     user = models.ForeignKey(User)

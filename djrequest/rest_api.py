@@ -6,18 +6,19 @@ import permissions as mypermissions
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.UserSerializer
     queryset = models.User.objects.all()
-    permission_classes = (mypermissions.IsOwnerOrReadOnly,)
+    lookup_field = ('username')
+
+
+class UserSimpleViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = serializers.UserSimpleSerializer
+    queryset = models.User.objects.all()
+    lookup_field = ('username')
 
 
 class UserPrefViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserPrefsSerializer
     queryset = models.UserPrefs.objects.all()
     permission_classes = (mypermissions.IsOwnerOrReadOnly,)
-
-
-class GenreViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = serializers.GenreSerializer
-    queryset = models.Genre.objects.all()
 
 
 class SongViewSet (viewsets.ModelViewSet):

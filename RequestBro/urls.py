@@ -20,12 +20,17 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'users', rest_api.UserViewSet)
+router.register(r'simpleusers', rest_api.UserSimpleViewSet)
+router.register(r'userpref', rest_api.UserPrefViewSet)
+router.register(r'songs', rest_api.SongViewSet)
+router.register(r'songrequests', rest_api.SongRequestViewSet)
+router.register(r'detailedsongrequests', rest_api.SongRequestDetailedViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include(router.urls)),
+    url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url (r'^auth/', include('rest_framework_social_oauth2.urls')),
+    url(r'^auth/', include('rest_framework_social_oauth2.urls')),
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^$', views.Landing.as_view(), name='landing'),
     url(r'^accounts/login/$', views.LoginRedirect.as_view(pattern_name='landing')),

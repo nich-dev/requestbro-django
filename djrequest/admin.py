@@ -9,13 +9,6 @@ class UserPrefAdmin(admin.ModelAdmin):
     search_fields = ('user', 'date_created','date_edited')
     ordering = ('user',)
     
-class GenreAdmin(admin.ModelAdmin):
-    model = models.Genre
-    
-    list_display = ('title', 'date_created','date_edited')
-    search_fields = ('title', 'date_created','date_edited')
-    ordering = ('title',)
-    
 class SongAdmin(admin.ModelAdmin):
     model = models.Song
     
@@ -38,7 +31,6 @@ class SongRequestAdmin(admin.ModelAdmin):
     ordering = ('date_created','user')
     
 admin.site.register(models.UserPrefs, UserPrefAdmin)
-admin.site.register(models.Genre, GenreAdmin)
 admin.site.register(models.Song, SongAdmin)
 admin.site.register(models.Session, SessionAdmin)
 admin.site.register(models.SongRequest, SongRequestAdmin)

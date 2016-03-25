@@ -4,37 +4,22 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSimpleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'is_staff')
-
-
-class GenreSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Genre
-        fields = ('url', 'title')
+        fields = ('url', 'username',)
+        lookup_field = 'username'
+        extra_kwargs = {
+            'url': {'lookup_field': 'username'}
+        }
 
 
 class SongSerializer(serializers.HyperlinkedModelSerializer):
-    genre = serializers.StringRelatedField(many=False)
-
     class Meta:
         model = models.Song
         fields = ('url', 'title', 'soundcloud_link', 'youtube_link',
                   'spotify_link', 'playmusic_link', 'verified', 'requests',
                   'genre')
-
-
-class SessionSerializer(serializers.HyperlinkedModelSerializer):
-    user = serializers.StringRelatedField(many=False)
-    genre = serializers.StringRelatedField(many=False)
-
-    class Meta:
-        model = models.Session
-        fields = ('url', 'user', 'title', 'genre', 'link', 'suspend', 'sub_only',
-                  'verified_only', 'ended', 'allow_soundcloud', 'allow_youtube',
-                  'allow_spotify', 'allow_playmusic')
 
 
 class SongRequestSerializer(serializers.HyperlinkedModelSerializer):
@@ -44,7 +29,7 @@ class SongRequestSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class SongRequestDetailedSerializer(serializers.HyperlinkedModelSerializer):
-    song = SongSerializer(many=False, read_only=True)
+    song = SongSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.SongRequest
@@ -61,5 +46,38 @@ class UserPrefsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.UserPrefs
         fields = ('url', 'user', 'default_link', 'logo',
-                  'banned_users', 'banned_songs', 'following_users', 'mod_users',
-                  'banned_songs_by_word', 'dark', 'color', 'can_verify')
+                  'banned_users', 'banned_songs', 'following_users',
+                  'mod_users', 'banned_songs_by_word', 'dark',
+                  'color', 'can_verify')
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    prefs = UserPrefsSerializer(source='userprefs_set', many=True)
+
+    class Meta:
+        model = User
+        fields = ('url', 'username', 'is_staff', 'prefs')
+        lookup_field = 'username'
+        extra_kwargs = {
+            'url': {'lookup_field': 'username'}
+        }
+
+
+class SessionSimpleSerializer(serializers.HyperlinkedModelSerializer):
+    user = serializers.StringRelatedField(many=False)
+
+    class Meta:
+        model = models.Session
+        fields = ('url', 'user', 'title', 'genre', 'link', 'suspend', 'sub_only',
+                  'verified_only', 'ended', 'allow_soundcloud', 'allow_youtube',
+                  'allow_spotify', 'allow_playmusic')
+
+class SessionSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer(many=False, read_only=True)
+    requests = SongRequestDetailedSerializer(many=True, read_only=True, source='songrequest_set')
+
+    class Meta:
+        model = models.Session
+        fields = ('url', 'user', 'title', 'genre', 'link', 'suspend', 'sub_only',
+                  'verified_only', 'ended', 'allow_soundcloud', 'allow_youtube',
+                  'allow_spotify', 'allow_playmusic')
