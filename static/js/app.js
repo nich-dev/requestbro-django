@@ -47,7 +47,8 @@ var initialize_generic = function(){
 	}
 	$('.parallax').parallax();
     $('#content .modal-trigger').leanModal();    
-    switch_theme_colors();s
+    switch_theme_colors();
+    style_forms();
 }
 
 var initialize_first = function(){
@@ -59,6 +60,7 @@ var initialize_first = function(){
 	    });
     $('.parallax').parallax();
     $('.modal-trigger').leanModal();
+    style_forms();
 }
 
 var switch_theme_colors = function(){
@@ -82,4 +84,9 @@ var switch_theme_colors = function(){
 	    });
 		$n.addClass(thm);
 	}
+}
+
+
+var style_forms = function(){
+    $('select').material_select();
 }

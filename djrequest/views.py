@@ -90,6 +90,11 @@ class UserEdit(FormView):
         initial['color'] = user_pref.color
         return initial
 
+    def get_context_data(self, **kwargs):
+        context = super(UserEdit, self).get_context_data(**kwargs)
+        context['theme'] = get_theme_color(self)
+        return context
+
 
 class SessionFormView(FormView):
     model = models.Session
