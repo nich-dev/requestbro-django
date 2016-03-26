@@ -4,6 +4,37 @@ var themes = ['blue', 'red', 'pink', 'purple', 'deep-purple', 'indigo', 'light-b
 
 var first = true;
 
+function getCookie(name)
+{
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+};
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+};
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+    }
+});
+
 var initialize_forms = function(){
 	$("#id_partners").select2();
 }
@@ -52,44 +83,3 @@ var switch_theme_colors = function(){
 		$n.addClass(thm);
 	}
 }
-
-var update_user = function(token){
-	var stuff;
-	$.ajax({
-	      url: 'https://api.twitch.tv/kraken/user',
-	      type: 'GET',
-	      error: function(data) {
-	         console.log(data);
-	         stuff = data;
-	      },
-	      beforeSend: function (xhr) {
-	    	    xhr.setRequestHeader ("Authorization", "OAuth " + token);
-	    	},
-	      dataType: 'application/vnd.twitchtv.v3+json',
-	      success: function(data) {
-	         console.log(data);
-	         stuff = data;
-	      },
-	      
-	   });
-	send_user_update_to_server(stuff);
-}
-
-var send_user_update_to_server = function(stuff) {
-	$.ajax({
-	      url: 'http://'+window.location.host+"/accounts/update/simple/",
-	      type: 'POST',
-	      data: stuff,
-	      error: function() {
-	         console.log('failed to update user to server');
-	      },
-	      success: function(data) {
-	         console.log(data);
-	      },
-	      
-	   });
-}
-
-//REPLACE
-//implement sockek.io to get push notifications, nodejs, gvent
-//see http://www.gianlucaguarini.com/blog/nodejs-and-a-simple-push-notification-server/

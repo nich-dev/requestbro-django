@@ -20,7 +20,6 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'users', rest_api.UserViewSet)
-router.register(r'simpleusers', rest_api.UserSimpleViewSet)
 router.register(r'userpref', rest_api.UserPrefViewSet)
 router.register(r'songs', rest_api.SongViewSet)
 router.register(r'songrequests', rest_api.SongRequestViewSet)
@@ -40,7 +39,6 @@ urlpatterns = [
     url(r'^dev/$', 'djrequest.views.home'),
     url(r'^accounts/logout/$', 'djrequest.views.logout'),
     url(r'^accounts/(?P<username>[0-9A-Za-z_]{4,25})/$', views.Profile.as_view(), name='profile'),
-    url(r'^accounts/update/simple/$', views.SimpleUpdateUser.as_view(), name='simpleupdate'),
     url(r'^done/$', 'djrequest.views.done', name='done'),
     url(r'^ajax-auth/(?P<backend>[^/]+)/$', 'djrequest.views.ajax_auth',
         name='ajax-auth'),

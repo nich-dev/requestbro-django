@@ -21,18 +21,6 @@ def get_theme_color(obj):
     return "blue"
 
 
-def check_twitch_updates(obj):
-    token = 0
-    if obj.id and obj.first_name == 'update':
-        try:
-            token = obj.social_auth.get(provider='twitch').extra_data['access_token']
-        except Exception, e:
-            print e
-        obj.first_name = "ok"
-        obj.save()
-    return token
-
-
 class Landing(TemplateView):
     def get_template_names(self):
         if self.request.user.id:
@@ -47,7 +35,6 @@ class Landing(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(Landing, self).get_context_data(**kwargs)
-        context['token'] = check_twitch_updates(self.request.user)
         context['theme'] = get_theme_color(self)
         return context
 
@@ -140,20 +127,8 @@ class SongRequestFormView(FormView):
             return ['container/song_request.form.html']
 
 
-class SimpleUpdateUser(View):
-    def post(self, request):
-        print request
-        return 'OK'
-
-
 class LoginRedirect(RedirectView):
     def dispatch(self, request, *args, **kwargs):
-        try:
-            print "setting user name to update"
-            self.request.user.first_name = "update"
-            self.request.user.save()
-        except Exception, e:
-            print e
         return RedirectView.dispatch(self, request, *args, **kwargs)
 
 

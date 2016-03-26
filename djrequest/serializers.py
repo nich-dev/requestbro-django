@@ -4,16 +4,6 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 
-class UserSimpleSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username',)
-        lookup_field = 'username'
-        extra_kwargs = {
-            'url': {'lookup_field': 'username'}
-        }
-
-
 class SongSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Song
@@ -22,10 +12,12 @@ class SongSerializer(serializers.HyperlinkedModelSerializer):
                   'genre')
 
 
-class SongRequestSerializer(serializers.HyperlinkedModelSerializer):
+class SongRequestSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(many=False)
+
     class Meta:
         model = models.SongRequest
-        fields = ('url', 'user', 'song', 'complete', 'note', 'points', 'hidden')
+        fields = ('user', 'song', 'session', 'complete', 'note', 'points', 'hidden')
 
 
 class SongRequestDetailedSerializer(serializers.HyperlinkedModelSerializer):
@@ -34,7 +26,7 @@ class SongRequestDetailedSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.SongRequest
-        fields = ('url', 'user', 'song', 'complete', 'note', 'points', 'hidden')
+        fields = ('url', 'user', 'song', 'session', 'complete', 'note', 'points', 'hidden')
 
 
 class UserPrefsSerializer(serializers.HyperlinkedModelSerializer):
@@ -52,24 +44,24 @@ class UserPrefsSerializer(serializers.HyperlinkedModelSerializer):
                   'color', 'can_verify')
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     prefs = UserPrefsSerializer(source='userprefs_set', many=True)
 
     class Meta:
         model = User
-        fields = ('url', 'username', 'is_staff', 'prefs')
+        fields = ('username', 'is_staff', 'prefs')
         lookup_field = 'username'
         extra_kwargs = {
             'url': {'lookup_field': 'username'}
         }
 
 
-class SessionSimpleSerializer(serializers.HyperlinkedModelSerializer):
+class SessionSimpleSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = models.Session
-        fields = ('url', 'user', 'title', 'genre', 'link', 'suspend', 'sub_only',
+        fields = ('user', 'title', 'genre', 'link', 'suspend', 'sub_only',
                   'verified_only', 'ended', 'allow_soundcloud', 'allow_youtube',
                   'allow_spotify', 'allow_playmusic')
 
