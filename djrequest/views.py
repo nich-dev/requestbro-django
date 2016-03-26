@@ -57,8 +57,8 @@ class Profile(TemplateView):
         try:
             lookup_user = User.objects.get(username=username)  # get the viewable user
             context['lookup_user'] = lookup_user
-            context['lookup_user_prefs'] = models.UserPrefs.objects.get_or_create(user=lookup_user)
-            context['theme'] = lookup_user.color
+            context['lookup_user_prefs'] = models.UserPrefs.objects.get_or_create(user=lookup_user)[0]
+            context['theme'] = context['lookup_user_prefs'].color
             return context
         except Exception, e:
             print e
@@ -66,7 +66,7 @@ class Profile(TemplateView):
             return context
 
 
-class UserEdit(UpdateView):
+class UserEdit(FormView):
     model = models.UserPrefs
     form_class = forms.UserPrefForm
     success_url = '/accounts/profile/'
@@ -79,13 +79,13 @@ class UserEdit(UpdateView):
 
     def get_initial(self):
         initial = super(UserEdit, self).get_initial()
-        user_pref = models.UserPrefs.objects.get_or_create(user=self.request.user)
+        user_pref = models.UserPrefs.objects.get_or_create(user=self.request.user)[0]
         initial['default_link'] = user_pref.default_link
-        initial['banned_users'] = user_pref.banned_users
-        initial['banned_songs'] = user_pref.banned_songs
-        initial['banned_songs_by_word'] = user_pref.following_users
-        initial['following_users'] = user_pref.following_users
-        initial['mod_users'] = user_pref.mod_users
+        initial['banned_users'] = user_pref.banned_users.all()
+        initial['banned_songs'] = user_pref.banned_songs.all()
+        initial['following_users'] = user_pref.following_users.all()
+        initial['mod_users'] = user_pref.mod_users.all()
+        initial['banned_songs_by_word'] = user_pref.banned_songs_by_word
         initial['dark'] = user_pref.dark
         initial['color'] = user_pref.color
         return initial

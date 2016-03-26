@@ -4,10 +4,10 @@ from models import UserPrefs, SongRequest, Song, Session
 class UserPrefForm(ModelForm):
     class Meta:
         model = UserPrefs
-        fields = ['default_link', 'banned_users', 'banned_songs', 
-                  'banned_songs_by_word','following_users', 
+        fields = ['default_link', 'banned_users', 'banned_songs',
+                  'banned_songs_by_word','following_users',
                   'mod_users', 'dark', 'color', ]
-        
+
 class SongForm(ModelForm):
     class Meta:
         model = Song

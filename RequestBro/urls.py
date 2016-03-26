@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^accounts/login/$', views.LoginRedirect.as_view(pattern_name='landing')),
     url(r'^dev/$', 'djrequest.views.home'),
     url(r'^accounts/logout/$', 'djrequest.views.logout'),
+    url(r'^accounts/(?P<username>[0-9A-Za-z_]{4,25})/edit/$', views.UserEdit.as_view(), name='profile-edit'),
     url(r'^accounts/(?P<username>[0-9A-Za-z_]{4,25})/$', views.Profile.as_view(), name='profile'),
     url(r'^done/$', 'djrequest.views.done', name='done'),
     url(r'^ajax-auth/(?P<backend>[^/]+)/$', 'djrequest.views.ajax_auth',

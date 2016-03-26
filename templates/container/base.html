@@ -35,7 +35,6 @@
 	$(document).ready(function() {  
 		initialize_first();
 		initialize_forms();
-		{% if token != 0 %}update_user("{{ token }}");{% endif %}
 	});
 	$(window).on('statechangecomplete', function(e, eventInfo){
 		initialize_generic();
